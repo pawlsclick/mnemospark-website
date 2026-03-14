@@ -279,13 +279,13 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
     <h1>Wallet and go.<br><span class="highlight-static"></span> <span class="highlight rotating-word" id="rotating-word">Just Base 💙</span></h1>
     <p class="subtitle">mnemospark is an agentic service layer for OpenClaw and a standalone x402 payment and wallet-proof verification backend. It provides encrypted, authenticated, and fully autonomous access to cloud infrastructure and proprietary data, paid via x402 with USDC on Base. No human onboarding. No API keys. The blockchain transaction is the record.</p>
     <div class="cta-row">
-      <a href="https://github.com/pawlsclick/mnemospark" class="btn btn-primary">Get Started →</a>
+      <a href="#" class="btn btn-primary">Get Started →</a>
       <a href="#how" class="btn btn-ghost">How It Works</a>
     </div>
     <div class="demo-container">
       <div class="demo-tabs">
-        <div class="demo-tab" onclick="switchDemo('cli')">CLI Install</div>
-        <div class="demo-tab active" onclick="switchDemo('chat')">Chat with OpenClaw</div>
+        <div class="demo-tab" onclick="switchDemo('cli')">Tab A</div>
+        <div class="demo-tab active" onclick="switchDemo('chat')">Tab B</div>
       </div>
       <div id="demo-cli" class="demo-panel">
         <div class="code-block">
@@ -298,7 +298,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
       <div id="demo-chat" class="demo-panel active">
         <div class="chat-sim" id="chatSim">
           <div class="chat-header">
-            <div class="chat-avatar">🦞</div>
+            <div class="chat-avatar">🤖</div>
             <div class="chat-name">OpenClaw<span>Chat · online</span></div>
           </div>
           <div class="chat-messages" id="chatMessages"></div>
@@ -354,6 +354,28 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
 </section>
 
 <!-- ═══════════════════════════════════════════════
+     WHY / PROBLEM SECTION
+     Long-form narrative text explaining the problem
+     your product solves. Three paragraphs.
+     ═══════════════════════════════════════════════ -->
+<!-- 
+<section id="why">
+  <div class="container">
+    <h2>Why You Need This</h2>
+    <p class="section-sub">A short subtitle reinforcing the problem statement.</p>
+    -->
+    <!-- Style: body text uses inline color/size; or add a class and style it in the "Features / section text" area of <style> -->
+    <!--
+    <div style="max-width:720px;margin:40px auto 0;color:var(--text-dim);font-size:.95rem;line-height:1.7">
+      <p>First paragraph: describe the pain point your users face. What happens when they don't have your product? What are they losing or risking? Make the problem feel real and urgent.</p>
+      <p style="margin-top:16px">Second paragraph: amplify the consequences. Describe the worst-case scenario. What breaks, what gets lost, what takes forever to rebuild? Build emotional resonance with the reader.</p>
+      <p style="margin-top:16px">Third paragraph: introduce the solution at a high level. Explain how your product addresses the problem completely. End on a note of confidence and relief.</p>
+    </div>
+  </div>
+</section>
+--> 
+
+<!-- ═══════════════════════════════════════════════
      HOW IT WORKS
      Three-step process with numbered icons and a
      connecting line between them.
@@ -365,23 +387,45 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
     <div class="steps">
       <div class="step">
         <div class="step-icon">🔧<div class="step-num">1</div></div>
-        <h3>Install mnemospark</h3>
+        <h3>Step One Title</h3>
         <p>Install the mnemospark plugin into your OpenClaw workspace.</p>
       </div>
       <div class="step">
         <div class="step-icon">⚙️<div class="step-num">2</div></div>
-        <h3>Fund the agent’s wallet</h3>
-        <p>Configure your mnemospark wallet and deposit a little USDC on Base.</p>
+        <h3>Step Two Title</h3>
+        <p>Configure your mnemospark wallet and agent skills in your OpenClaw workspace.</p>
       </div>
       <div class="step">
         <div class="step-icon">✅<div class="step-num">3</div></div>
-        <h3>Let your agent run</h3>
-        <p>Ask your OpenClaw agent to quote and purchase storage with mnemospark.</p>
+        <h3>Step Three Title</h3>
+        <p>Ask your OpenClaw agent how to use mnemospark.</p>
       </div>
     </div>
   </div>
 </section>
- 
+
+<!-- ═══════════════════════════════════════════════
+     CALLOUT / CTA SECTION
+     Code block with a single command or instruction,
+     plus a supporting paragraph underneath.
+     ═══════════════════════════════════════════════ -->
+<!-- 
+     <section id="callout">
+  <div class="container">
+    <h2>A Special Callout Section</h2>
+    <p class="section-sub">A subtitle that draws attention to a key capability.</p>
+    <div class="code-block">
+      <span class="comment"># A key instruction or command:</span><br>
+      "Replace this with your actual callout content or a terminal command"
+    </div>
+    -->
+    <!-- Style: paragraph below code uses inline color/size; or add a class and style in <style> (e.g. .callout-note). -->
+<!--
+      <p style="text-align:center;color:var(--text-dim);font-size:.92rem;max-width:560px;margin:24px auto 0;">A supporting paragraph that elaborates on the callout above. Explain what makes this capability unique or important.</p>
+  </div>
+</section>
+--> 
+
 <!-- ═══════════════════════════════════════════════
      FEATURES GRID
      Six feature cards in a responsive 2-column (or
@@ -443,12 +487,10 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
     </div>
     <div class="pricing-grid">
       <div class="price-card featured">
-        <span class="badge">Agent-billed Monthly</span>
-        <p style="margin-top:8px;color:var(--text-dim);font-size:.9rem;">
-          Your agent pays on the 1st of each month via a cron job. Stop the cron job to cancel.
-        </p>
-        <p style="margin-top:8px;color:var(--text-dim);font-size:.9rem;">
-        You only pay the quoted amount for the storage you use.</p>
+        <span class="badge">Monthly</span>
+        <h3>Payments are submitted by your agent on the 1st of the month via a cron job. Payment is required every month to keep your storage active.</h3>
+        <h3>Cancel anytime - Have your agent delete the payment cron job and stop paying.</h3>
+        <div class="price-amount"><span>You pay the quoted amount for storage usage each month.</span></div>
         <ul>
           <li>Encrypted storage</li>
           <li>Wallet-proof authentication</li>
