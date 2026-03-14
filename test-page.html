@@ -290,17 +290,16 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
       <div id="demo-cli" class="demo-panel">
         <div class="code-block">
           <span class="comment"># Step one</span><br>
-          <span class="cmd">your-cli install</span> your-package<br><br>
+          <span class="cmd">$</span> openclaw plugins install mnemospark@latest<br><br>
           <span class="comment"># Step two</span><br>
-          <span class="cmd">your-cli</span> run<br>
-          <span class="cmd">your-cli</span> deploy
+          <span class="cmd">$</span> openclaw restart gateway<br>
         </div>
       </div>
       <div id="demo-chat" class="demo-panel active">
         <div class="chat-sim" id="chatSim">
           <div class="chat-header">
             <div class="chat-avatar">🤖</div>
-            <div class="chat-name">Assistant<span>Your Product · online</span></div>
+            <div class="chat-name">OpenClaw<span>Chat · online</span></div>
           </div>
           <div class="chat-messages" id="chatMessages"></div>
         </div>
@@ -321,13 +320,13 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
       var el=document.getElementById('chatMessages');
       el.innerHTML='';
       var msgs=[
-        {type:'human',text:'Hey, can you set things up for me?',delay:600},
+        {type:'human',text:'Please install mnemospark.',delay:600},
         {type:'typing',delay:1800},
-        {type:'agent',text:'Sure thing. Let me get started.',delay:400},
+        {type:'agent',text:'I\'m on it!.',delay:400},
         {type:'typing',delay:1200},
-        {type:'agent',text:'Running <code>your-cli install</code>... done. Configuring your workspace now.',delay:500},
+        {type:'agent',text:'Running <code>openclaw plugins install mnemospark@latest</code>... done. Configuring your workspace now.',delay:500},
         {type:'typing',delay:2000},
-        {type:'agent',text:'All set. Everything is configured and running. I\'ll handle the rest automatically from here.',delay:0},
+        {type:'agent',text:'mnemospark is installed. View your wallet by typing /mnemospark-wallet and then deposit a little USDC on Base to start using mnemospark today!',delay:0},
       ];
       var total=0;
       msgs.forEach(function(m,i){
@@ -359,11 +358,14 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
      Long-form narrative text explaining the problem
      your product solves. Three paragraphs.
      ═══════════════════════════════════════════════ -->
+<!-- 
 <section id="why">
   <div class="container">
     <h2>Why You Need This</h2>
     <p class="section-sub">A short subtitle reinforcing the problem statement.</p>
+    -->
     <!-- Style: body text uses inline color/size; or add a class and style it in the "Features / section text" area of <style> -->
+    <!--
     <div style="max-width:720px;margin:40px auto 0;color:var(--text-dim);font-size:.95rem;line-height:1.7">
       <p>First paragraph: describe the pain point your users face. What happens when they don't have your product? What are they losing or risking? Make the problem feel real and urgent.</p>
       <p style="margin-top:16px">Second paragraph: amplify the consequences. Describe the worst-case scenario. What breaks, what gets lost, what takes forever to rebuild? Build emotional resonance with the reader.</p>
@@ -371,6 +373,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
     </div>
   </div>
 </section>
+--> 
 
 <!-- ═══════════════════════════════════════════════
      HOW IT WORKS
@@ -406,7 +409,8 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
      Code block with a single command or instruction,
      plus a supporting paragraph underneath.
      ═══════════════════════════════════════════════ -->
-<section id="callout">
+<!-- 
+     <section id="callout">
   <div class="container">
     <h2>A Special Callout Section</h2>
     <p class="section-sub">A subtitle that draws attention to a key capability.</p>
@@ -414,10 +418,13 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
       <span class="comment"># A key instruction or command:</span><br>
       "Replace this with your actual callout content or a terminal command"
     </div>
+    -->
     <!-- Style: paragraph below code uses inline color/size; or add a class and style in <style> (e.g. .callout-note). -->
-    <p style="text-align:center;color:var(--text-dim);font-size:.92rem;max-width:560px;margin:24px auto 0;">A supporting paragraph that elaborates on the callout above. Explain what makes this capability unique or important.</p>
+<!--
+      <p style="text-align:center;color:var(--text-dim);font-size:.92rem;max-width:560px;margin:24px auto 0;">A supporting paragraph that elaborates on the callout above. Explain what makes this capability unique or important.</p>
   </div>
 </section>
+--> 
 
 <!-- ═══════════════════════════════════════════════
      FEATURES GRID
@@ -475,35 +482,19 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
     <p class="section-sub">Simple, transparent pricing.</p>
     <div class="launch-banner">
       <span class="launch-icon">☁️</span>
-      <span class="launch-text">LAUNCH PRICE</span>
-      <span class="launch-sub">Limited time only — your rate is locked in forever</span>
+      <span class="launch-text">Only Pay for What You Use</span>
+      <span class="launch-sub">Request a quote for your storage needs and pay for what you use.</span>
     </div>
     <div class="pricing-grid">
       <div class="price-card featured">
         <span class="badge">Monthly</span>
-        <h3>Plan A</h3>
-        <div class="price-amount"><span class="price-original">$19</span> $9 <span>/ month</span></div>
+        <h3>Payments are submitted by your agent on the 1st of the month via a cron job.</h3>
+        <div class="price-amount"><span>You pay the quoted amount for storage usage each month. month</span></div>
         <ul>
-          <li>Feature included</li>
-          <li>Another feature</li>
-          <li>Storage or quota</li>
-          <li>Core capability</li>
+          <li>Encrypted storage</li>
+          <li>Wallet-proof authentication - only your agent can access your data</li>
+          <li>Request more storage as needed</li>
         </ul>
-        <a href="#" class="btn btn-primary btn-sm">Subscribe Monthly</a>
-      </div>
-      <!-- Style: Plan B "Best Value" card uses inline overrides (border, badge, subtext, button). To change globally, edit .price-card.featured, .badge, .btn in the Pricing section of <style>; or add a class like .price-card.best-value and style it there. -->
-      <div class="price-card featured" style="border-color:#818cf8">
-        <span class="badge" style="background:rgba(129,140,248,.15);color:#818cf8">Best Value</span>
-        <h3>Plan B</h3>
-        <div class="price-amount"><span class="price-original">$19</span> $4.08 <span>/ month</span></div>
-        <div style="font-size:.85rem;color:var(--text-dim);margin-top:-8px;margin-bottom:12px">$49 billed annually — 78% off</div>
-        <ul>
-          <li>Everything in Plan A</li>
-          <li>More quota or storage</li>
-          <li>Priority support</li>
-          <li>Core capability</li>
-        </ul>
-        <a href="#" class="btn btn-primary btn-sm" style="background:linear-gradient(135deg,#818cf8,var(--accent2))">Subscribe Annual</a>
       </div>
     </div>
   </div>
