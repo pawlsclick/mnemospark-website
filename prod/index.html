@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mnemospark — Wallet and go. 💙</title>
+<meta name="description" content="mnemospark is an OpenClaw plugin that gives agentic systems instant, secure access to cloud storage, compute, and proprietary datasets paid via x402 with USDC on Base.">
+<link rel="canonical" href="https://mnemospark.ai/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="mnemospark — Wallet and go. 💙">
+<meta property="og:description" content="mnemospark is an OpenClaw plugin that gives agentic systems instant, secure access to cloud storage, compute, and proprietary datasets paid via x402 with USDC on Base.">
+<meta property="og:url" content="https://mnemospark.ai/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="mnemospark">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="mnemospark — Wallet and go.">
+<meta name="twitter:description" content="mnemospark is an OpenClaw plugin that gives agentic systems instant, secure access to cloud storage, compute, and proprietary datasets paid via x402 with USDC on Base.">
+<meta name="twitter:site" content="@mnemospark">
+<meta property="og:image" content="https://mnemospark.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://mnemospark.ai/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "mnemospark",
+      "url": "https://mnemospark.ai",
+      "sameAs": ["https://x.com/mnemospark", "https://github.com/pawlsclick/mnemospark"]
+    },
+    {
+      "@type": "Product",
+      "name": "mnemospark",
+      "description": "mnemospark is an OpenClaw plugin that gives agentic systems instant, secure access to cloud storage, compute, and proprietary datasets paid via x402 with USDC on Base.",
+      "brand": {"@type": "Organization", "name": "mnemospark"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "What is mnemospark?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark is an OpenClaw plugin and backend service that lets agentic systems run cloud operations and file storage workflows. Your agent pays for storage with its wallet using USDC on Base via the x402 protocol. No logins, no forms, just wallet and go."}},
+        {"@type": "Question", "name": "What is a wallet on Base?", "acceptedAnswer": {"@type": "Answer", "text": "A Base wallet is a blockchain account (address and private key) on the Base network. It holds USDC and signs transactions and authorizations used for payments."}},
+        {"@type": "Question", "name": "How does mnemospark provide a wallet?", "acceptedAnswer": {"@type": "Answer", "text": "During setup, mnemospark creates or reuses a local wallet key and uses it to sign payment and auth requests. The wallet key is stored locally in your OpenClaw home directory under ~/.openclaw/mnemospark/wallet."}},
+        {"@type": "Question", "name": "How is my data protected?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark upload flows use encrypted payloads and request signing. Access to storage endpoints requires wallet-proof authentication and signed requests. Your agent wallet is its identity."}},
+        {"@type": "Question", "name": "Where is my data stored?", "acceptedAnswer": {"@type": "Answer", "text": "Files are stored with AWS. You select the geographic region when creating a quote, including EU regions like Milan and Frankfurt for GDPR compliance."}},
+        {"@type": "Question", "name": "When do I pay for storage?", "acceptedAnswer": {"@type": "Answer", "text": "Your agent submits payment on the 1st of each month via a cron job. Payment is required each month to keep storage active. Stop the cron job to cancel."}}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+/* ═══════════════════════════════════════════════
+   MNEMOSPARK CORE — never changes
+   ═══════════════════════════════════════════════ */
+:root{
+  --bg:#000000;
+  --surface:#111111;
+  --surface2:#1a1a1a;
+  --border:#222222;
+  --text:#ffffff;
+  --text-dim:#888888;
+
+  /* ═══════════════════════════════════════════════
+     CHAIN ACCENT — swap these 3 lines per chain
+     Current: Base (#0052FF)
+     Future Solana swap:
+       --chain-accent: #9945FF;
+       --chain-accent2: #14F195;
+       --chain-glow: rgba(153,69,255,.15);
+     ═══════════════════════════════════════════════ */
+  --chain-accent:#0052FF;
+  --chain-accent2:#0040CC;
+  --chain-glow:rgba(0,82,255,.15);
+}
+
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--chain-accent);text-decoration:none;transition:opacity .2s}
+a:hover{opacity:.8}
+
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+section{padding:100px 0}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:16px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.2rem;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;color:var(--text);text-decoration:none}
+.logo span{color:var(--text)}
+.nav-links{display:flex;gap:28px;font-size:.9rem}
+.nav-links a{color:var(--text-dim);transition:color .2s}
+.nav-links a:hover{color:var(--text);opacity:1}
+
+/* Hero */
+.hero{padding:180px 0 120px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,var(--chain-glow) 0%,transparent 70%);pointer-events:none}
+.hero h1{font-size:clamp(2.8rem,6vw,4.5rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:20px;position:relative;color:var(--text)}
+.hero h1 .highlight,.hero h1 .highlight-static{background:linear-gradient(135deg,var(--chain-accent),#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.rotating-word{display:inline-block;min-width:5.5em;text-align:left;transition:opacity .4s ease,transform .4s ease}
+.rotating-word.fade-out{opacity:0;transform:translateY(8px)}
+.hero .subtitle{font-size:clamp(1.1rem,2vw,1.35rem);color:var(--text-dim);max-width:560px;margin:0 auto 40px;line-height:1.5}
+.hero .cta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* Chain badge strip */
+.chain-badges{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:32px;flex-wrap:wrap}
+.chain-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid var(--border);font-size:.78rem;color:var(--text-dim);background:var(--surface)}
+.chain-badge-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:10px;font-size:1rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--chain-accent),var(--chain-accent2));color:#fff;box-shadow:0 0 30px rgba(0,82,255,.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(0,82,255,.4);opacity:1}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border);padding:14px 28px}
+.btn-ghost:hover{border-color:var(--chain-accent);opacity:1}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:60px;position:relative}
+.steps::before{content:'';position:absolute;top:50px;left:16%;right:16%;height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border),transparent);z-index:0}
+.step{text-align:center;position:relative;z-index:1}
+.step-icon{width:80px;height:80px;margin:0 auto 20px;border-radius:20px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:2rem}
+.step-num{position:absolute;top:-8px;right:calc(50% - 52px);background:var(--chain-accent);color:#fff;font-size:.7rem;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.step h3{font-size:1.15rem;margin-bottom:8px;font-weight:700}
+.step p{color:var(--text-dim);font-size:.92rem;max-width:260px;margin:0 auto}
+h2{font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:800;letter-spacing:-.03em;text-align:center;color:var(--text)}
+h2+.section-sub{text-align:center;color:var(--text-dim);margin-top:12px;font-size:1.05rem}
+
+/* Features */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:60px}
+.feature{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;transition:border-color .3s,transform .3s}
+.feature:hover{border-color:#333;transform:translateY(-2px)}
+.feature-icon{font-size:1.6rem;margin-bottom:14px}
+.feature h3{font-size:1.05rem;font-weight:700;margin-bottom:8px;color:var(--text)}
+.feature p{color:var(--text-dim);font-size:.9rem;line-height:1.55}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:60px;max-width:720px;margin-left:auto;margin-right:auto}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px;position:relative;overflow:hidden}
+.price-card.featured{border-color:var(--chain-accent)}
+.price-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--chain-accent),#818cf8)}
+.badge{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:6px;background:var(--chain-glow);color:var(--chain-accent);margin-bottom:16px}
+.launch-banner{text-align:center;margin:40px auto 0;max-width:720px;padding:20px 32px;border-radius:14px;background:linear-gradient(135deg,rgba(0,82,255,.1),rgba(129,140,248,.06));border:1px solid rgba(0,82,255,.25);position:relative;overflow:hidden}
+.launch-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--chain-accent),#818cf8,var(--chain-accent))}
+.launch-banner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,82,255,.08),transparent 70%);pointer-events:none}
+.launch-icon{font-size:1.8rem;display:block;margin-bottom:6px}
+.launch-text{display:block;font-size:1.6rem;font-weight:900;letter-spacing:.12em;background:linear-gradient(135deg,var(--chain-accent),#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.launch-sub{display:block;font-size:.85rem;color:var(--text-dim);margin-top:4px}
+.price-card ul{list-style:none;margin:20px 0 28px}
+.price-card li{padding:6px 0;font-size:.9rem;color:var(--text-dim);display:flex;align-items:center;gap:8px}
+.price-card li::before{content:'✓';color:var(--chain-accent);font-weight:700}
+.btn-sm{padding:12px 24px;width:100%;justify-content:center;border-radius:10px;font-size:.95rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-links{display:flex;gap:24px;font-size:.85rem;align-items:center}
+.footer-links a{color:var(--text-dim);display:inline-flex;align-items:center}
+.footer-copy{font-size:.82rem;color:#555;display:inline-flex;align-items:center;gap:8px}
+
+/* Code block */
+.code-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:.85rem;color:var(--text-dim);margin-top:48px;max-width:520px;margin-left:auto;margin-right:auto;text-align:left;overflow-x:auto}
+.code-block .cmd{color:var(--chain-accent)}
+.code-block .comment{color:#444}
+
+/* Demo tabs */
+.demo-container{margin-top:48px;max-width:520px;margin-left:auto;margin-right:auto}
+.demo-tabs{display:flex;gap:0;margin-bottom:0}
+.demo-tab{padding:10px 24px;font-size:.85rem;font-weight:600;cursor:pointer;background:var(--surface2);color:var(--text-dim);border:1px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;transition:all .2s;user-select:none}
+.demo-tab:first-child{margin-right:-1px}
+.demo-tab.active{background:var(--surface);color:var(--text);border-color:var(--border)}
+.demo-tab:not(.active):hover{color:var(--text)}
+.demo-panel{display:none}
+.demo-panel.active{display:block}
+.demo-panel .code-block{margin-top:0;border-radius:0 10px 10px 10px}
+
+/* Chat */
+.chat-sim{background:var(--surface);border:1px solid var(--border);border-radius:0 10px 10px 10px;padding:24px;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:200px}
+.chat-header{display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--chain-accent),var(--chain-accent2));display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.chat-name{font-size:.9rem;font-weight:600}
+.chat-name span{display:block;font-size:.75rem;color:var(--text-dim);font-weight:400}
+.chat-messages{display:flex;flex-direction:column;gap:12px}
+.chat-msg{max-width:85%;padding:10px 14px;border-radius:12px;font-size:.88rem;line-height:1.45;opacity:0;transform:translateY(8px);animation:msgIn .4s ease forwards}
+.chat-msg.human{background:var(--surface2);border:1px solid var(--border);align-self:flex-end;border-radius:12px 12px 4px 12px}
+.chat-msg.agent{background:linear-gradient(135deg,rgba(0,82,255,.1),rgba(0,64,204,.06));border:1px solid rgba(0,82,255,.2);align-self:flex-start;border-radius:12px 12px 12px 4px}
+.chat-msg code{background:rgba(0,82,255,.15);padding:2px 6px;border-radius:4px;font-size:.8rem;color:var(--chain-accent)}
+.chat-typing{align-self:flex-start;padding:10px 14px;opacity:0;animation:msgIn .3s ease forwards}
+.chat-typing .dots{display:inline-flex;gap:4px}
+.chat-typing .dots span{width:6px;height:6px;border-radius:50%;background:var(--text-dim);animation:typing 1.2s ease infinite}
+.chat-typing .dots span:nth-child(2){animation-delay:.2s}
+.chat-typing .dots span:nth-child(3){animation-delay:.4s}
+@keyframes msgIn{to{opacity:1;transform:translateY(0)}}
+@keyframes typing{0%,60%,100%{opacity:.3;transform:scale(.8)}30%{opacity:1;transform:scale(1)}}
+
+/* FAQ */
+.faq-list{max-width:720px;margin:40px auto 0}
+.faq-item{border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;background:var(--surface);transition:border-color .3s}
+.faq-item:hover{border-color:#333}
+.faq-item summary{padding:20px 24px;font-size:1rem;font-weight:600;cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;color:var(--text)}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';font-size:1.3rem;color:var(--chain-accent);font-weight:300;transition:transform .2s}
+.faq-item[open] summary::after{content:'−'}
+.faq-item p{padding:0 24px 20px;color:var(--text-dim);font-size:.92rem;line-height:1.6}
+.faq-item code{background:var(--surface2);padding:2px 7px;border-radius:4px;font-size:.85rem;color:var(--chain-accent)}
+
+/* Mobile */
+@media(max-width:768px){
+  section{padding:72px 0}
+  .hero{padding:140px 0 80px}
+  .steps{grid-template-columns:1fr;gap:40px;max-width:320px;margin-left:auto;margin-right:auto}
+  .steps::before{display:none}
+  .nav-links{display:none}
+  .pricing-grid{grid-template-columns:1fr}
+  .footer-inner{flex-direction:column;text-align:center}
+  .chain-badges{gap:6px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="logo"><img src="favicon.svg" alt="" width="28" height="28" style="display:block;flex-shrink:0"> <span>mnemospark</span></a>
+    <div class="nav-links">
+      <a href="#how">How It Works</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+      <a href="https://github.com/pawlsclick/mnemospark">Docs</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <h1>Wallet and go.<br><span class="highlight-static"></span><span class="highlight rotating-word" id="rotating-word">Just Base 💙</span></h1>
+    <p class="subtitle">mnemospark is an agentic service layer for OpenClaw and a standalone x402 payment and wallet-proof verification backend. Encrypted, authenticated, and fully autonomous access to cloud infrastructure and proprietary data, paid via x402 with USDC on Base. No human onboarding. No API keys. The blockchain transaction is the record.</p>
+    <div class="cta-row">
+      <a href="https://github.com/pawlsclick/mnemospark" class="btn btn-primary">Get Started →</a>
+      <a href="#how" class="btn btn-ghost">How It Works</a>
+    </div>
+
+    <!-- Chain badge strip -->
+    <div class="chain-badges">
+      <div class="chain-badge">
+        <span class="chain-badge-dot" style="background:#0052FF"></span>
+        Base
+      </div>
+      <div class="chain-badge">
+        <span class="chain-badge-dot" style="background:#2775CA"></span>
+        USDC · Circle
+      </div>
+      <div class="chain-badge">
+        <span class="chain-badge-dot" style="background:#888"></span>
+        x402 Protocol
+      </div>
+      <div class="chain-badge">
+        <span class="chain-badge-dot" style="background:#FF9900"></span>
+        AWS Storage
+      </div>
+    </div>
+
+    <div class="demo-container">
+      <div class="demo-tabs">
+        <div class="demo-tab" onclick="switchDemo('cli')">CLI Install</div>
+        <div class="demo-tab active" onclick="switchDemo('chat')">Chat with OpenClaw</div>
+      </div>
+      <div id="demo-cli" class="demo-panel">
+        <div class="code-block">
+          <span class="comment"># Step one</span><br>
+          <span class="cmd">$</span> openclaw plugins install mnemospark@latest<br><br>
+          <span class="comment"># Step two</span><br>
+          <span class="cmd">$</span> openclaw gateway restart<br>
+        </div>
+      </div>
+      <div id="demo-chat" class="demo-panel active">
+        <div class="chat-sim" id="chatSim">
+          <div class="chat-header">
+            <div class="chat-avatar">🦞</div>
+            <div class="chat-name">OpenClaw<span>Chat · online</span></div>
+          </div>
+          <div class="chat-messages" id="chatMessages"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+    function switchDemo(tab){
+      document.querySelectorAll('.demo-tab').forEach(function(t){t.classList.remove('active')});
+      document.querySelectorAll('.demo-panel').forEach(function(p){p.classList.remove('active')});
+      document.querySelector('.demo-tab:'+(tab==='cli'?'first':'last')+'-child').classList.add('active');
+      document.getElementById('demo-'+tab).classList.add('active');
+      if(tab==='chat')runChat();
+    }
+    var chatRunning=false;
+    document.addEventListener('DOMContentLoaded',function(){runChat()});
+    function runChat(){
+      if(chatRunning)return;chatRunning=true;
+      var el=document.getElementById('chatMessages');
+      el.innerHTML='';
+      var msgs=[
+        {type:'human',text:'Please install mnemospark.',delay:600},
+        {type:'typing',delay:1800},
+        {type:'agent',text:'I\'m on it!',delay:400},
+        {type:'typing',delay:1200},
+        {type:'agent',text:'Running <code>openclaw plugins install mnemospark@latest</code>... done. Configuring your workspace now.',delay:500},
+        {type:'typing',delay:2000},
+        {type:'agent',text:'mnemospark is installed. View your wallet by typing /mnemospark-wallet and deposit a little USDC on Base to get started!',delay:0},
+      ];
+      var total=0;
+      msgs.forEach(function(m,i){
+        total+=m.delay;
+        setTimeout(function(){
+          el.querySelectorAll('.chat-typing').forEach(function(t){t.remove()});
+          if(m.type==='typing'){
+            var d=document.createElement('div');
+            d.className='chat-typing';
+            d.innerHTML='<div class="dots"><span></span><span></span><span></span></div>';
+            el.appendChild(d);
+          }else{
+            var d=document.createElement('div');
+            d.className='chat-msg '+m.type;
+            d.innerHTML=m.text;
+            el.appendChild(d);
+          }
+          el.parentElement.scrollTop=el.parentElement.scrollHeight;
+          if(i===msgs.length-1)setTimeout(function(){chatRunning=false},2000);
+        },total);
+      });
+    }
+    </script>
+  </div>
+</section>
+
+<section id="how">
+  <div class="container">
+    <h2>How It Works</h2>
+    <p class="section-sub">Three steps. Zero complexity.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">🔧<div class="step-num">1</div></div>
+        <h3>Install mnemospark</h3>
+        <p>Install the mnemospark plugin into your OpenClaw workspace.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">⚙️<div class="step-num">2</div></div>
+        <h3>Fund the agent's wallet</h3>
+        <p>Configure your mnemospark wallet and deposit a little USDC on Base.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">✅<div class="step-num">3</div></div>
+        <h3>Let your agent run</h3>
+        <p>Ask your OpenClaw agent to quote and purchase storage with mnemospark.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <h2>Features</h2>
+    <p class="section-sub">Everything you need. Nothing you don't.</p>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>Wallet-proof access</h3>
+        <p>Storage access is gated by signed, wallet-authenticated requests. No passwords, no shared API keys.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">☁️</div>
+        <h3>Cloud storage first</h3>
+        <p>Start with AWS regions like Milan and Frankfurt; tune for latency and data residency from day one.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⏱️</div>
+        <h3>Agent-first UX</h3>
+        <p>Agents request a quote, pay, and provision storage in a single flow. No consoles, no dashboards.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔄</div>
+        <h3>Automatic renewals</h3>
+        <p>Monthly payments via cron jobs keep storage active. Delete the job to cancel.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔌</div>
+        <h3>x402-native payments</h3>
+        <p>Use x402 with USDC on Base for payments. The HTTP status code is the paywall.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📋</div>
+        <h3>Full audit trail</h3>
+        <p>Every quote, payment, and storage action is tied to a transaction on-chain.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="container">
+    <h2>Pricing</h2>
+    <p class="section-sub">Simple, transparent pricing.</p>
+    <div class="launch-banner">
+      <span class="launch-icon">☁️</span>
+      <span class="launch-text">Only Pay for What You Use</span>
+      <span class="launch-sub">Request a quote for your storage needs and pay for what you use.</span>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <span class="badge">Agent-billed Monthly</span>
+        <p style="margin-top:8px;color:var(--text-dim);font-size:.9rem;">Your agent pays on the 1st of each month via a cron job. Stop the cron job to cancel.</p>
+        <p style="margin-top:8px;color:var(--text-dim);font-size:.9rem;">You only pay the quoted amount for the storage you use.</p>
+        <ul>
+          <li>Encrypted storage</li>
+          <li>Wallet-proof authentication</li>
+          <li>Only your agent can access your data</li>
+          <li>Request more storage as needed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <h2>Frequently Asked Questions</h2>
+    <p class="section-sub">Everything you need to know.</p>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>What is mnemospark and what does it do?</summary>
+        <p>mnemospark is an OpenClaw plugin and backend service that lets agentic systems run cloud operations and file storage workflows. You can quote storage, upload, download, list, and delete files. Your agent pays for storage with its wallet using USDC on Base.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What is a wallet on Base?</summary>
+        <p>A Base wallet is a blockchain account (address + private key) on the Base network. It can hold USDC and sign transactions and authorizations used for payments.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How does mnemospark provide a wallet?</summary>
+        <p>During setup, mnemospark creates or reuses a local wallet key and uses it to sign payment and auth requests. The wallet key is stored locally in your OpenClaw home directory under <code>~/.openclaw/mnemospark/wallet</code>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I fund my wallet on Base?</summary>
+        <p>Send USDC (Base network) to your wallet address from an exchange or another wallet. Make sure you select Base as the network when withdrawing or transferring. Once funded, mnemospark can use those funds for payments.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I pay for storage?</summary>
+        <p>mnemospark requests a storage quote first, then submits a signed USDC payment authorization (x402 flow) when you execute upload and storage actions. Payment and storage requests are tied together by the quote.</p>
+      </details>
+      <details class="faq-item">
+        <summary>When do I pay for storage?</summary>
+        <p>Your agent submits payment on the 1st of each month via a cron job. Payment is required each month to keep storage active.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Where is my data stored?</summary>
+        <p>Files are securely stored with AWS. You may select which geographic region your data is stored in when creating a quote — pick the region closest to you. EU regions like Milan and Frankfurt are available for GDPR compliance.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How is my data protected?</summary>
+        <p>mnemospark upload flows use encrypted payloads (AES-256-GCM) and request signing. Access to storage endpoints requires wallet-proof authentication and signed requests. Your agent's wallet is its ID — never share your wallet private key.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How can I access my stored data?</summary>
+        <p>Use mnemospark commands to list, download, and delete files. Access is gated by wallet-proof authorization — only requests signed by your wallet are accepted.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Didn't find your answer?</summary>
+        <p>Drop us a line at <a href="mailto:hello@mnemospark.ai">hello@mnemospark.ai</a> — we're a small team and we read everything. Early access requests, partnership ideas, and feedback all welcome.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding:60px 0 40px">
+  <div class="container" style="text-align:center">
+    <p style="font-size:1.05rem;color:var(--text-dim);margin-bottom:8px">Still have questions? We're humans too.</p>
+    <a href="mailto:hello@mnemospark.ai" style="font-size:1.3rem;font-weight:700;color:var(--text);letter-spacing:-.01em">hello@mnemospark.ai</a>
+    <p style="font-size:.85rem;color:var(--text-dim);margin-top:8px">Early access, partnerships, or just say hi — we read everything.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-copy">
+      <img src="favicon.svg" alt="" width="20" height="20" style="display:block;flex-shrink:0">
+      <span>mnemospark — Wallet and go!</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/pawlsclick/mnemospark" target="_blank" title="GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <a href="https://x.com/mnemospark" target="_blank" title="X">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="mailto:hello@mnemospark.ai" title="Email" style="gap:6px">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        hello@mnemospark.ai
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var words=['No email 💙','No forms 💙','No logins 💙','No API keys 💙','Just Base 💙'];
+  var i=0,el=document.getElementById('rotating-word');
+  setInterval(function(){
+    el.classList.add('fade-out');
+    setTimeout(function(){
+      i=(i+1)%words.length;
+      el.textContent=words[i];
+      el.classList.remove('fade-out');
+    },400);
+  },2500);
+})();
+</script>
+</body>
+</html>
