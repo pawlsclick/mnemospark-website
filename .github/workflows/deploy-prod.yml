@@ -69,6 +69,7 @@ jobs:
       - name: Deploy HTML (no-cache)
         run: |
           aws s3 sync ./prod s3://${{ steps.outputs.outputs.bucket }} \
+            --delete \
             --exclude "*" \
             --include "*.html" \
             --cache-control "no-cache, no-store, must-revalidate"
