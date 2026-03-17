@@ -97,8 +97,22 @@ Resources:
           var host = request.headers.host && request.headers.host.value;
           if (host === "${WwwDomainName}") {
             var location = "https://${DomainName}" + request.uri;
-            if (request.querystring && request.querystring.length > 0) {
-              location += "?" + request.querystring;
+            var querystring = request.querystring || {};
+            var queryKeys = Object.keys(querystring);
+            if (queryKeys.length > 0) {
+              var query = [];
+              for (var i = 0; i < queryKeys.length; i++) {
+                var key = queryKeys[i];
+                var entry = querystring[key];
+                if (entry.multiValue) {
+                  for (var j = 0; j < entry.multiValue.length; j++) {
+                    query.push(key + "=" + entry.multiValue[j].value);
+                  }
+                } else {
+                  query.push(key + "=" + entry.value);
+                }
+              }
+              location += "?" + query.join("&");
             }
             return {
               statusCode: 301,
