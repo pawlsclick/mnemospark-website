@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://mnemospark.ai/">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png">
+<link rel="apple-touch-icon" sizes="180x180" href=favicon-180x180.png">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="mnemospark — Wallet and go. 💙">
 <meta property="og:description" content="mnemospark is an OpenClaw plugin that gives agentic systems instant, secure access to cloud storage, compute, and proprietary datasets paid via x402 with USDC on Base.">
@@ -90,7 +90,7 @@ a:hover{opacity:.8}
 section{padding:100px 0}
 
 /* Nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:16px 0}
+nav{position:fixed;top:37px;left:0;right:0;z-index:100;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:16px 0}
 .nav-inner{display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:1.2rem;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;color:var(--text);text-decoration:none}
 .logo span{color:var(--text)}
@@ -99,7 +99,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.88);b
 .nav-links a:hover{color:var(--text);opacity:1}
 
 /* Hero */
-.hero{padding:180px 0 120px;text-align:center;position:relative;overflow:hidden}
+.hero{padding:220px 0 120px;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,var(--chain-glow) 0%,transparent 70%);pointer-events:none}
 .hero h1{font-size:clamp(2.8rem,6vw,4.5rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:20px;position:relative;color:var(--text)}
 .hero h1 .highlight,.hero h1 .highlight-static{background:linear-gradient(135deg,var(--chain-accent),#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -223,7 +223,38 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
 </style>
 </head>
 <body>
-
+<!-- ═══════════════════════════════════════════════
+     LAUNCH BANNER — remove once live
+     ═══════════════════════════════════════════════ -->
+     <div id="launch-bar" style="
+     position:fixed;
+     top:0;left:0;right:0;
+     z-index:200;
+     background:#000;
+     border-bottom:1px solid #0052FF;
+     padding:10px 24px;
+     display:flex;
+     align-items:center;
+     justify-content:center;
+     gap:10px;
+     font-size:.82rem;
+     color:#888;
+     text-align:center;
+   ">
+     <span>☁️ mnemospark is launching soon —</span>
+     <a href="https://x.com/mnemospark" target="_blank" style="color:#fff;font-weight:600;text-decoration:none;letter-spacing:-.01em">
+       follow @mnemospark on X
+     </a>
+     <span>for first access and updates. 💙</span>
+     <button onclick="document.getElementById('launch-bar').style.display='none'" style="
+       position:absolute;right:16px;
+       background:none;border:none;
+       color:#444;font-size:1rem;
+       cursor:pointer;line-height:1;
+       padding:4px 8px;
+     " title="Dismiss">×</button>
+   </div>
+   
 <nav>
   <div class="container nav-inner">
     <a href="/" class="logo"><img src="favicon.svg" alt="" width="28" height="28" style="display:block;flex-shrink:0"> <span>mnemospark</span></a>
