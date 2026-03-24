@@ -55,7 +55,7 @@ jobs:
               GitHubOidcProviderArn="arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/token.actions.githubusercontent.com" \
              DomainName="${{ env.DOMAIN_NAME }}" \
              WwwDomainName="${{ env.WWW_DOMAIN_NAME }}" \
-             AcmCertificateArn="${{ env.ACM_CERTIFICATE_ARN }}"
+             AcmCertificateArn="${{ secrets.ACM_CERTIFICATE_ARN }}"
 
       - name: Resolve stack outputs
         id: outputs
