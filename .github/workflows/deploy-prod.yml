@@ -41,21 +41,21 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy CloudFormation stack
-  shell: bash
-  run: |
-    set -euo pipefail
+        shell: bash
+        run: |
+          set -euo pipefail
 
-    aws cloudformation deploy \
-      --stack-name "$CFN_STACK_NAME" \
-      --template-file "$CFN_TEMPLATE_FILE" \
-      --region "$AWS_REGION" \
-      --capabilities CAPABILITY_NAMED_IAM \
-      --no-fail-on-empty-changeset \
-      --parameter-overrides \
-        GitHubOidcProviderArn="arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/token.actions.githubusercontent.com" \
-        DomainName="${DOMAIN_NAME}" \
-        WwwDomainName="${WWW_DOMAIN_NAME}" \
-        AcmCertificateArn="${ACM_CERTIFICATE_ARN}"
+          aws cloudformation deploy \
+            --stack-name "$CFN_STACK_NAME" \
+            --template-file "$CFN_TEMPLATE_FILE" \
+            --region "$AWS_REGION" \
+            --capabilities CAPABILITY_NAMED_IAM \
+            --no-fail-on-empty-changeset \
+            --parameter-overrides \
+              GitHubOidcProviderArn="arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/token.actions.githubusercontent.com" \
+             DomainName="${{ env.DOMAIN_NAME }}" \
+             WwwDomainName="${{ env.WWW_DOMAIN_NAME }}" \
+             AcmCertificateArn="${{ env.ACM_CERTIFICATE_ARN }}"
 
       - name: Resolve stack outputs
         id: outputs
