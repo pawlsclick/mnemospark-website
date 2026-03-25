@@ -24,6 +24,9 @@ Parameters:
   GitHubBranch:
     Type: String
     Default: main
+  GitHubEnvironmentName:
+    Type: String
+    Default: prod
   GitHubDeployRoleName:
     Type: String
     Default: mnemospark-website-github-deploy-main
@@ -202,8 +205,13 @@ Resources:
             Condition:
               StringEquals:
                 token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:repository: !Sub "${GitHubOrg}/${GitHubRepo}"
+              StringLikeIfExists:
+                token.actions.githubusercontent.com:ref: !Sub "refs/heads/${GitHubBranch}"
               StringLike:
-                token.actions.githubusercontent.com:sub: !Sub "repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/${GitHubBranch}"
+                token.actions.githubusercontent.com:sub:
+                  - !Sub "repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/${GitHubBranch}"
+                  - !Sub "repo:${GitHubOrg}/${GitHubRepo}:environment:${GitHubEnvironmentName}"
       Policies:
         - PolicyName: website-deploy
           PolicyDocument:
