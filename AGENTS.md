@@ -30,6 +30,12 @@ There are no linters, test runners, or build tools configured. Validation is vis
 
 AWS CLI v2 is installed globally. Infrastructure templates live in `infra/cloudformation/`. See `README.md` for CloudFormation deploy commands.
 
+**Gotcha:** The injected secret is named `AWS_SECRECT_ACCESS_KEY` (typo — extra "C"). AWS CLI expects `AWS_SECRET_ACCESS_KEY`. Before running any `aws` command, export the corrected variable:
+
+```
+export AWS_SECRET_ACCESS_KEY="$AWS_SECRECT_ACCESS_KEY"
+```
+
 ### Deployment
 
 Production deploys happen via GitHub Actions on push to `main` affecting `prod/**`. No manual deploy steps are needed locally.
