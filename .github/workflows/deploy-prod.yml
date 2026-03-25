@@ -41,6 +41,29 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN_PROD }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Recover from ROLLBACK_COMPLETE stack state
+        shell: bash
+        run: |
+          set -euo pipefail
+          STACK_STATUS=$(aws cloudformation describe-stacks \
+            --stack-name "$CFN_STACK_NAME" \
+            --region "$AWS_REGION" \
+            --query "Stacks[0].StackStatus" \
+            --output text 2>/dev/null || echo "STACK_NOT_FOUND")
+
+          if [[ "$STACK_STATUS" == "ROLLBACK_COMPLETE" ]]; then
+            echo "Stack is ROLLBACK_COMPLETE. Deleting before redeploy..."
+            aws cloudformation delete-stack \
+              --stack-name "$CFN_STACK_NAME" \
+              --region "$AWS_REGION"
+            aws cloudformation wait stack-delete-complete \
+              --stack-name "$CFN_STACK_NAME" \
+              --region "$AWS_REGION"
+            echo "Stale rollback stack deleted."
+          else
+            echo "Stack status is $STACK_STATUS. No cleanup needed."
+          fi
+
       - name: Deploy CloudFormation stack
         shell: bash
         run: |
@@ -54,6 +77,7 @@ jobs:
             --no-fail-on-empty-changeset \
             --parameter-overrides \
               GitHubOidcProviderArn="arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/token.actions.githubusercontent.com" \
+              CreateGitHubDeployRole="false" \
              DomainName="${{ env.DOMAIN_NAME }}" \
              WwwDomainName="${{ env.WWW_DOMAIN_NAME }}" \
              AcmCertificateArn="${{ secrets.ACM_CERTIFICATE_ARN }}"
