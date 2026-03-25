@@ -27,12 +27,21 @@ Parameters:
   GitHubEnvironmentName:
     Type: String
     Default: prod
+  CreateGitHubDeployRole:
+    Type: String
+    Default: "true"
+    AllowedValues:
+      - "true"
+      - "false"
   GitHubDeployRoleName:
     Type: String
     Default: mnemospark-website-github-deploy-main
   GitHubOidcProviderArn:
     Type: String
     Description: Existing IAM OIDC provider ARN for GitHub Actions (token.actions.githubusercontent.com)
+
+Conditions:
+  CreateGitHubDeployRoleCondition: !Equals [!Ref CreateGitHubDeployRole, "true"]
 
 Resources:
   WebsiteBucket:
@@ -193,6 +202,7 @@ Resources:
 
   GitHubDeployRole:
     Type: AWS::IAM::Role
+    Condition: CreateGitHubDeployRoleCondition
     Properties:
       RoleName: !Ref GitHubDeployRoleName
       AssumeRolePolicyDocument:
@@ -212,33 +222,38 @@ Resources:
                 token.actions.githubusercontent.com:sub:
                   - !Sub "repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/${GitHubBranch}"
                   - !Sub "repo:${GitHubOrg}/${GitHubRepo}:environment:${GitHubEnvironmentName}"
-      Policies:
-        - PolicyName: website-deploy
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action:
-                  - s3:ListBucket
-                Resource:
-                  - !GetAtt WebsiteBucket.Arn
-              - Effect: Allow
-                Action:
-                  - s3:PutObject
-                  - s3:DeleteObject
-                  - s3:GetObject
-                Resource:
-                  - !Sub "${WebsiteBucket.Arn}/*"
-              - Effect: Allow
-                Action:
-                  - cloudfront:CreateInvalidation
-                  - cloudfront:GetDistribution
-                Resource:
-                  - !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${WebsiteDistribution}"
-              - Effect: Allow
-                Action:
-                  - cloudformation:DescribeStacks
-                Resource: "*"
+  GitHubDeployRolePolicy:
+    Type: AWS::IAM::Policy
+    Condition: CreateGitHubDeployRoleCondition
+    Properties:
+      PolicyName: website-deploy
+      Roles:
+        - !Ref GitHubDeployRole
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:ListBucket
+            Resource:
+              - !GetAtt WebsiteBucket.Arn
+          - Effect: Allow
+            Action:
+              - s3:PutObject
+              - s3:DeleteObject
+              - s3:GetObject
+            Resource:
+              - !Sub "${WebsiteBucket.Arn}/*"
+          - Effect: Allow
+            Action:
+              - cloudfront:CreateInvalidation
+              - cloudfront:GetDistribution
+            Resource:
+              - !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${WebsiteDistribution}"
+          - Effect: Allow
+            Action:
+              - cloudformation:DescribeStacks
+            Resource: "*"
 
 Outputs:
   BucketName:
@@ -250,7 +265,7 @@ Outputs:
   DistributionDomainName:
     Value: !GetAtt WebsiteDistribution.DomainName
   GitHubDeployRoleArn:
-    Value: !GetAtt GitHubDeployRole.Arn
+    Value: !Sub "arn:aws:iam::${AWS::AccountId}:role/${GitHubDeployRoleName}"
   ApexDnsTarget:
     Description: Porkbun ALIAS target for root (@)
     Value: !GetAtt WebsiteDistribution.DomainName
