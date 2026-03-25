@@ -26,6 +26,10 @@ See `README.md` for full details. Key paths:
 
 There are no linters, test runners, or build tools configured. Validation is visual — open the HTML in a browser and inspect.
 
+### AWS CLI
+
+AWS CLI v2 is installed globally. Infrastructure templates live in `infra/cloudformation/`. See `README.md` for CloudFormation deploy commands.
+
 ### Deployment
 
 Production deploys happen via GitHub Actions on push to `main` affecting `prod/**`. No manual deploy steps are needed locally.
