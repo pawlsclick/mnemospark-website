@@ -201,16 +201,16 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
 .demo-panel .code-block{margin-top:0;border-radius:0 10px 10px 10px}
 
 /* Chat */
-.chat-sim{background:var(--surface);border:1px solid var(--border);border-radius:0 10px 10px 10px;padding:24px;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:200px}
+.chat-sim{background:var(--surface);border:1px solid var(--border);border-radius:0 10px 10px 10px;padding:24px;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:200px;overflow:hidden;min-width:0}
 .chat-header{display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:16px}
 .chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--chain-accent),var(--chain-accent2));display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
 .chat-name{font-size:.9rem;font-weight:600}
 .chat-name span{display:block;font-size:.75rem;color:var(--text-dim);font-weight:400}
-.chat-messages{display:flex;flex-direction:column;gap:12px}
-.chat-msg{max-width:85%;padding:10px 14px;border-radius:12px;font-size:.88rem;line-height:1.45;opacity:0;transform:translateY(8px);animation:msgIn .4s ease forwards}
+.chat-messages{display:flex;flex-direction:column;gap:12px;min-width:0;width:100%}
+.chat-msg{max-width:85%;min-width:0;padding:10px 14px;border-radius:12px;font-size:.88rem;line-height:1.45;opacity:0;transform:translateY(8px);animation:msgIn .4s ease forwards;overflow-wrap:anywhere;word-break:break-word}
 .chat-msg.human{background:var(--surface2);border:1px solid var(--border);align-self:flex-end;border-radius:12px 12px 4px 12px}
 .chat-msg.agent{background:linear-gradient(135deg,rgba(0,82,255,.1),rgba(0,64,204,.06));border:1px solid rgba(0,82,255,.2);align-self:flex-start;border-radius:12px 12px 12px 4px}
-.chat-msg code{background:rgba(0,82,255,.15);padding:2px 6px;border-radius:4px;font-size:.8rem;color:var(--chain-accent)}
+.chat-msg code{background:rgba(0,82,255,.15);padding:2px 6px;border-radius:4px;font-size:.8rem;color:var(--chain-accent);word-break:break-all}
 .chat-typing{align-self:flex-start;padding:10px 14px;opacity:0;animation:msgIn .3s ease forwards}
 .chat-typing .dots{display:inline-flex;gap:4px}
 .chat-typing .dots span{width:6px;height:6px;border-radius:50%;background:var(--text-dim);animation:typing 1.2s ease infinite}
