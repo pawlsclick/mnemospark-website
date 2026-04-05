@@ -26,13 +26,7 @@ Static site for mnemospark.
 
 ## Current production content source
 
-`prod/index.html` is sourced from `pre-launch-test.html`.
-
-Assets copied to `prod/`:
-- `favicon.svg`
-- `favicon-32x32.png`
-- `favicon-180x180.png`
-- `og-image.png`
+Production HTML and static assets live under **`prod/`** (for example `prod/index.html`, `prod/favicon.svg`, `prod/og-image.png`). Edit those files directly; merging to `main` deploys them to S3.
 
 ## One-time setup
 
