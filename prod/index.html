@@ -3,26 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>mnemospark — Wallet and go. 💙</title>
-<meta name="description" content="mnemospark is an OpenClaw plugin that gives agentic systems instant, secure access to cloud storage, compute, and proprietary datasets paid via x402 with USDC on Base.">
+<title>mnemospark — OpenClaw cloud backup, x402 &amp; USDC on Base L2 💙</title>
+<meta name="description" content="OpenClaw plugin for encrypted cloud backup and agent-driven storage. Circle USDC on Coinbase Base (Ethereum L2) via x402—wallet-native, no API keys. Agentic file workflows.">
 <link rel="canonical" href="https://mnemospark.ai/">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href=favicon-180x180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="mnemospark — Wallet and go. 💙">
-<meta property="og:description" content="mnemospark is an OpenClaw plugin that gives agentic systems instant, secure access to cloud storage, compute, and proprietary datasets paid via x402 with USDC on Base.">
+<meta property="og:title" content="mnemospark — OpenClaw cloud backup, x402 &amp; USDC on Base L2 💙">
+<meta property="og:description" content="mnemospark is the OpenClaw plugin for encrypted cloud backup and agent-driven storage. Automate quotes, uploads, and renewals with x402 and Circle USDC on Base (Coinbase’s Ethereum L2)—wallet-native, built for agentic workflows, no shared API keys.">
 <meta property="og:url" content="https://mnemospark.ai/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="mnemospark">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="mnemospark — Wallet and go.">
-<meta name="twitter:description" content="mnemospark is an OpenClaw plugin that gives agentic systems instant, secure access to cloud storage, compute, and proprietary datasets paid via x402 with USDC on Base.">
+<meta name="twitter:title" content="mnemospark — OpenClaw cloud backup, x402 &amp; USDC on Base L2">
+<meta name="twitter:description" content="Encrypted OpenClaw cloud backup and storage: x402 payments, Circle USDC, Coinbase Base L2. Agent-driven workflows, wallet-native access—no API keys.">
 <meta name="twitter:site" content="@mnemospark">
 <meta property="og:image" content="https://mnemospark.ai/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="mnemospark — OpenClaw cloud backup with USDC on Base via x402">
 <meta name="twitter:image" content="https://mnemospark.ai/og-image.png">
 <script type="application/ld+json">
 {
@@ -35,20 +36,40 @@
       "sameAs": ["https://x.com/mnemospark", "https://github.com/pawlsclick/mnemospark"]
     },
     {
+      "@type": "WebSite",
+      "name": "mnemospark",
+      "url": "https://mnemospark.ai/"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "mnemospark",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Cross-platform (OpenClaw host)",
+      "description": "OpenClaw plugin for encrypted cloud backup and agent-driven storage with x402 USDC payments on Base L2.",
+      "url": "https://github.com/pawlsclick/mnemospark",
+      "publisher": {"@type": "Organization", "name": "mnemospark", "url": "https://mnemospark.ai"}
+    },
+    {
       "@type": "Product",
       "name": "mnemospark",
-      "description": "mnemospark is an OpenClaw plugin that gives agentic systems instant, secure access to cloud storage, compute, and proprietary datasets paid via x402 with USDC on Base.",
+      "description": "OpenClaw plugin and backend for encrypted cloud backup, agentic storage workflows, and x402 payments with Circle USDC on Coinbase Base (Ethereum L2).",
       "brand": {"@type": "Organization", "name": "mnemospark"}
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {"@type": "Question", "name": "What is mnemospark?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark is an OpenClaw plugin and backend service that lets agentic systems run cloud operations and file storage workflows. Your agent pays for storage with its wallet using USDC on Base via the x402 protocol. No logins, no forms, just wallet and go."}},
-        {"@type": "Question", "name": "What is a wallet on Base?", "acceptedAnswer": {"@type": "Answer", "text": "A Base wallet is a blockchain account (address and private key) on the Base network. It holds USDC and signs transactions and authorizations used for payments."}},
+        {"@type": "Question", "name": "What is mnemospark and what does it do?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark is an OpenClaw plugin and backend service that lets agentic systems run cloud operations and file storage workflows. You can quote storage, upload, download, list, and delete files. Your agent pays for storage with its wallet using USDC on Base."}},
+        {"@type": "Question", "name": "Why does OpenClaw require --dangerously-force-unsafe-install for mnemospark?", "acceptedAnswer": {"@type": "Answer", "text": "OpenClaw warns about dangerous code patterns when you install mnemospark. mnemospark is an OpenClaw plugin that talks to your configured mnemospark backend, runs a local HTTP proxy for storage workflows, and can invoke the openclaw CLI and system tools for creating archives with tar. mnemospark is open source; review the repository or have an LLM walk the code if you want another opinion. Starter ChatGPT conversation: https://chatgpt.com/share/69ce6119-52cc-8394-b9f9-c06528d85ea7"}},
+        {"@type": "Question", "name": "How do I back up OpenClaw or my files?", "acceptedAnswer": {"@type": "Answer", "text": "Install the mnemospark OpenClaw plugin and restart the gateway. In OpenClaw chat, run /mnemospark wallet to get your Base address, fund it with USDC, then run /mnemospark cloud—your agent guides you through choosing files and your first encrypted cloud backup. No separate backup app required."}},
+        {"@type": "Question", "name": "What is a wallet on Base?", "acceptedAnswer": {"@type": "Answer", "text": "A Base wallet is a blockchain account (address + private key) on the Base network. It can hold USDC and sign transactions and authorizations used for payments."}},
         {"@type": "Question", "name": "How does mnemospark provide a wallet?", "acceptedAnswer": {"@type": "Answer", "text": "During setup, mnemospark creates or reuses a local wallet key and uses it to sign payment and auth requests. The wallet key is stored locally in your OpenClaw home directory under ~/.openclaw/mnemospark/wallet."}},
-        {"@type": "Question", "name": "How is my data protected?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark upload flows use encrypted payloads and request signing. Access to storage endpoints requires wallet-proof authentication and signed requests. Your agent wallet is its identity."}},
-        {"@type": "Question", "name": "Where is my data stored?", "acceptedAnswer": {"@type": "Answer", "text": "Files are stored with AWS. You select the geographic region when creating a quote, including EU regions like Milan and Frankfurt for GDPR compliance."}},
-        {"@type": "Question", "name": "When do I pay for storage?", "acceptedAnswer": {"@type": "Answer", "text": "Your agent submits payment on the 1st of each month via a cron job. Payment is required each month to keep storage active. Stop the cron job to cancel."}}
+        {"@type": "Question", "name": "How do I fund my wallet on Base?", "acceptedAnswer": {"@type": "Answer", "text": "Send USDC (Base network) to your wallet address from an exchange or another wallet. Make sure you select Base as the network when withdrawing or transferring. Once funded, mnemospark can use those funds for payments."}},
+        {"@type": "Question", "name": "How do I pay for storage?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark requests a storage quote first, then submits a signed USDC payment authorization (x402 flow) when you execute upload and storage actions. Payment and storage requests are tied together by the quote."}},
+        {"@type": "Question", "name": "When do I pay for storage?", "acceptedAnswer": {"@type": "Answer", "text": "Your agent submits payment on the 1st of each month via a cron job. Payment is required each month to keep storage active."}},
+        {"@type": "Question", "name": "Where is my data stored?", "acceptedAnswer": {"@type": "Answer", "text": "Files are securely stored with AWS. You may select which geographic region your data is stored in when creating a quote—pick the region closest to you."}},
+        {"@type": "Question", "name": "How is my data protected?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark upload flows use encrypted payloads (AES-256-GCM) and request signing. Access to storage endpoints requires wallet-native authentication and signed requests. Your agent's wallet is its ID—never share your wallet private key."}},
+        {"@type": "Question", "name": "How can I access my stored data?", "acceptedAnswer": {"@type": "Answer", "text": "Use mnemospark commands to list, download, and delete files. Access is gated by wallet-native authorization—only requests signed by your wallet are accepted."}},
+        {"@type": "Question", "name": "Didn't find your answer?", "acceptedAnswer": {"@type": "Answer", "text": "Email hello@mnemospark.ai—early access, partnerships, and feedback welcome."}}
       ]
     }
   ]
@@ -90,7 +111,7 @@ a:hover{opacity:.8}
 section{padding:100px 0}
 
 /* Nav */
-nav{position:fixed;top:37px;left:0;right:0;z-index:100;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:16px 0}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:16px 0}
 .nav-inner{display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:1.2rem;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;color:var(--text);text-decoration:none}
 .logo span{color:var(--text)}
@@ -180,16 +201,16 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
 .demo-panel .code-block{margin-top:0;border-radius:0 10px 10px 10px}
 
 /* Chat */
-.chat-sim{background:var(--surface);border:1px solid var(--border);border-radius:0 10px 10px 10px;padding:24px;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:200px}
+.chat-sim{background:var(--surface);border:1px solid var(--border);border-radius:0 10px 10px 10px;padding:24px;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:200px;overflow:hidden;min-width:0}
 .chat-header{display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:16px}
 .chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--chain-accent),var(--chain-accent2));display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
 .chat-name{font-size:.9rem;font-weight:600}
 .chat-name span{display:block;font-size:.75rem;color:var(--text-dim);font-weight:400}
-.chat-messages{display:flex;flex-direction:column;gap:12px}
-.chat-msg{max-width:85%;padding:10px 14px;border-radius:12px;font-size:.88rem;line-height:1.45;opacity:0;transform:translateY(8px);animation:msgIn .4s ease forwards}
+.chat-messages{display:flex;flex-direction:column;gap:12px;min-width:0;width:100%}
+.chat-msg{max-width:85%;min-width:0;padding:10px 14px;border-radius:12px;font-size:.88rem;line-height:1.45;opacity:0;transform:translateY(8px);animation:msgIn .4s ease forwards;overflow-wrap:anywhere;word-break:break-word}
 .chat-msg.human{background:var(--surface2);border:1px solid var(--border);align-self:flex-end;border-radius:12px 12px 4px 12px}
 .chat-msg.agent{background:linear-gradient(135deg,rgba(0,82,255,.1),rgba(0,64,204,.06));border:1px solid rgba(0,82,255,.2);align-self:flex-start;border-radius:12px 12px 12px 4px}
-.chat-msg code{background:rgba(0,82,255,.15);padding:2px 6px;border-radius:4px;font-size:.8rem;color:var(--chain-accent)}
+.chat-msg code{background:rgba(0,82,255,.15);padding:2px 6px;border-radius:4px;font-size:.8rem;color:var(--chain-accent);word-break:break-all}
 .chat-typing{align-self:flex-start;padding:10px 14px;opacity:0;animation:msgIn .3s ease forwards}
 .chat-typing .dots{display:inline-flex;gap:4px}
 .chat-typing .dots span{width:6px;height:6px;border-radius:50%;background:var(--text-dim);animation:typing 1.2s ease infinite}
@@ -223,38 +244,6 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
 </style>
 </head>
 <body>
-<!-- ═══════════════════════════════════════════════
-     LAUNCH BANNER — remove once live
-     ═══════════════════════════════════════════════ -->
-     <div id="launch-bar" style="
-     position:fixed;
-     top:0;left:0;right:0;
-     z-index:200;
-     background:#000;
-     border-bottom:1px solid #0052FF;
-     padding:10px 24px;
-     display:flex;
-     align-items:center;
-     justify-content:center;
-     gap:10px;
-     font-size:.82rem;
-     color:#888;
-     text-align:center;
-   ">
-     <span>☁️ mnemospark is launching soon —</span>
-     <a href="https://x.com/mnemospark" target="_blank" style="color:#fff;font-weight:600;text-decoration:none;letter-spacing:-.01em">
-       follow @mnemospark on X
-     </a>
-     <span>for first access and updates. 💙</span>
-     <button onclick="document.getElementById('launch-bar').style.display='none'" style="
-       position:absolute;right:16px;
-       background:none;border:none;
-       color:#444;font-size:1rem;
-       cursor:pointer;line-height:1;
-       padding:4px 8px;
-     " title="Dismiss">×</button>
-   </div>
-   
 <nav>
   <div class="container nav-inner">
     <a href="/" class="logo"><img src="favicon.svg" alt="" width="28" height="28" style="display:block;flex-shrink:0"> <span>mnemospark</span></a>
@@ -272,7 +261,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
 <section class="hero">
   <div class="container">
     <h1>Wallet and go.<br><span class="highlight-static"></span><span class="highlight rotating-word" id="rotating-word">Just Base 💙</span></h1>
-    <p class="subtitle">mnemospark is an agentic service layer for OpenClaw and a standalone x402 payment and wallet-proof verification backend. Encrypted, authenticated, and fully autonomous access to cloud infrastructure and proprietary data, paid via x402 with USDC on Base. No human onboarding. No API keys. The blockchain transaction is the record.</p>
+    <p class="subtitle">mnemospark is an <strong>OpenClaw</strong> plugin for <strong>encrypted cloud backup</strong> and agent-driven storage, plus an <strong>x402</strong> payment backend. Automate quotes, uploads, and renewals with <strong>Circle USDC</strong> on <strong>Base</strong> (Coinbase’s Ethereum <strong>L2</strong>)—wallet-native, built for <strong>agentic</strong> workflows. No API keys. The chain is the receipt.</p>
     <div class="cta-row">
       <a href="https://github.com/pawlsclick/mnemospark" class="btn btn-primary">Get Started →</a>
       <a href="#how" class="btn btn-ghost">How It Works</a>
@@ -282,7 +271,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
     <div class="chain-badges">
       <div class="chain-badge">
         <span class="chain-badge-dot" style="background:#0052FF"></span>
-        Base
+        Base L2 · Coinbase
       </div>
       <div class="chain-badge">
         <span class="chain-badge-dot" style="background:#2775CA"></span>
@@ -301,14 +290,22 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
     <div class="demo-container">
       <div class="demo-tabs">
         <div class="demo-tab" onclick="switchDemo('cli')">CLI Install</div>
-        <div class="demo-tab active" onclick="switchDemo('chat')">Chat with OpenClaw</div>
+        <div class="demo-tab active" onclick="switchDemo('chat')">OpenClaw Agent Driven Workflow</div>
       </div>
       <div id="demo-cli" class="demo-panel">
         <div class="code-block">
           <span class="comment"># Step one</span><br>
-          <span class="cmd">$</span> openclaw plugins install mnemospark@latest<br><br>
+          <span class="cmd">$</span> openclaw plugins install mnemospark --dangerously-force-unsafe-install<br><br>
           <span class="comment"># Step two</span><br>
-          <span class="cmd">$</span> openclaw gateway restart<br>
+          <span class="cmd">$</span> openclaw gateway restart<br><br>
+          <span class="comment"># Step three — Get your wallet address</span><br>
+          In OpenClaw chat, run: <span class="cmd">/mnemospark wallet</span><br>
+          <span class="comment">This returns your Base wallet address.</span><br><br>
+          <span class="comment"># Step four — Fund your wallet</span><br>
+          Send USDC on Base to that address.<br><br>
+          <span class="comment"># Step five — Start your first backup</span><br>
+          In OpenClaw chat, run: <span class="cmd">/mnemospark cloud</span><br>
+          <span class="comment">We'll guide you through your first encrypted backup.</span><br>
         </div>
       </div>
       <div id="demo-chat" class="demo-panel active">
@@ -336,13 +333,15 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
       var el=document.getElementById('chatMessages');
       el.innerHTML='';
       var msgs=[
-        {type:'human',text:'Please install mnemospark.',delay:600},
-        {type:'typing',delay:1800},
-        {type:'agent',text:'I\'m on it!',delay:400},
+        {type:'human',text:'Learn the mnemospark skill and update your tools file: ~/.openclaw/extensions/mnemospark/skills/mnemospark/SKILL.md',delay:500},
         {type:'typing',delay:1200},
-        {type:'agent',text:'Running <code>openclaw plugins install mnemospark@latest</code>... done. Configuring your workspace now.',delay:500},
-        {type:'typing',delay:2000},
-        {type:'agent',text:'mnemospark is installed. View your wallet by typing /mnemospark_wallet and deposit a little USDC on Base to get started!',delay:0},
+        {type:'agent',text:'I\'m on it!',delay:450},
+        {type:'typing',delay:900},
+        {type:'agent',text:'Done. I read the Mnemospark skill and updated TOOLS.md with the key commands.',delay:700},
+        {type:'typing',delay:1500},
+        {type:'agent',text:'View your wallet by typing /mnemospark wallet and deposit a little USDC on Base to get started.',delay:1600},
+        {type:'typing',delay:1000},
+        {type:'agent',text:'Once your wallet is funded, let me know which files you\'d like to back up to the cloud.',delay:0},
       ];
       var total=0;
       msgs.forEach(function(m,i){
@@ -400,13 +399,13 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
     <div class="features-grid">
       <div class="feature">
         <div class="feature-icon">🔒</div>
-        <h3>Wallet-proof access</h3>
+        <h3>Wallet-native access</h3>
         <p>Storage access is gated by signed, wallet-authenticated requests. No passwords, no shared API keys.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">☁️</div>
         <h3>Cloud storage first</h3>
-        <p>Start with AWS regions like Milan and Frankfurt; tune for latency and data residency from day one.</p>
+        <p>Pick the cloud region closest to you for faster uploads and downloads.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">⏱️</div>
@@ -426,7 +425,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
       <div class="feature">
         <div class="feature-icon">📋</div>
         <h3>Full audit trail</h3>
-        <p>Every quote, payment, and storage action is tied to a transaction on-chain.</p>
+        <p>Payments are on-chain. Quotes and storage actions are securely logged and tied to each payment.</p>
       </div>
     </div>
   </div>
@@ -448,9 +447,9 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
         <p style="margin-top:8px;color:var(--text-dim);font-size:.9rem;">You only pay the quoted amount for the storage you use.</p>
         <ul>
           <li>Encrypted storage</li>
-          <li>Wallet-proof authentication</li>
+          <li>Wallet-native authentication</li>
           <li>Only your agent can access your data</li>
-          <li>Request more storage as needed</li>
+          <li>Add or delete files as needed (cron billing updates automatically)</li>
         </ul>
       </div>
     </div>
@@ -465,6 +464,14 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
       <details class="faq-item">
         <summary>What is mnemospark and what does it do?</summary>
         <p>mnemospark is an OpenClaw plugin and backend service that lets agentic systems run cloud operations and file storage workflows. You can quote storage, upload, download, list, and delete files. Your agent pays for storage with its wallet using USDC on Base.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why does OpenClaw require <code>--dangerously-force-unsafe-install</code> for mnemospark?</summary>
+        <p>OpenClaw warns about dangerous code patterns when you install mnemospark. mnemospark is an OpenClaw plugin that talks to your configured mnemospark backend, runs a local HTTP proxy for storage workflows, and can invoke the openclaw CLI and system tools for creating archives with tar. mnemospark is open source; review the repository or have an LLM walk the code if you want another opinion. <a href="https://chatgpt.com/share/69ce6119-52cc-8394-b9f9-c06528d85ea7" target="_blank" rel="noopener noreferrer">Here's a starter ChatGPT conversation</a>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I back up OpenClaw or my files?</summary>
+        <p>Install the mnemospark OpenClaw plugin and restart the gateway. In OpenClaw chat, run <code>/mnemospark wallet</code> to get your Base address, fund it with USDC, then run <code>/mnemospark cloud</code>—your agent guides you through choosing files and your first encrypted cloud backup. No separate backup app required.</p>
       </details>
       <details class="faq-item">
         <summary>What is a wallet on Base?</summary>
@@ -488,15 +495,15 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
       </details>
       <details class="faq-item">
         <summary>Where is my data stored?</summary>
-        <p>Files are securely stored with AWS. You may select which geographic region your data is stored in when creating a quote — pick the region closest to you. EU regions like Milan and Frankfurt are available for GDPR compliance.</p>
+        <p>Files are securely stored with AWS. You may select which geographic region your data is stored in when creating a quote — pick the region closest to you.</p>
       </details>
       <details class="faq-item">
         <summary>How is my data protected?</summary>
-        <p>mnemospark upload flows use encrypted payloads (AES-256-GCM) and request signing. Access to storage endpoints requires wallet-proof authentication and signed requests. Your agent's wallet is its ID — never share your wallet private key.</p>
+        <p>mnemospark upload flows use encrypted payloads (AES-256-GCM) and request signing. Access to storage endpoints requires wallet-native authentication and signed requests. Your agent's wallet is its ID — never share your wallet private key.</p>
       </details>
       <details class="faq-item">
         <summary>How can I access my stored data?</summary>
-        <p>Use mnemospark commands to list, download, and delete files. Access is gated by wallet-proof authorization — only requests signed by your wallet are accepted.</p>
+        <p>Use mnemospark commands to list, download, and delete files. Access is gated by wallet-native authorization — only requests signed by your wallet are accepted.</p>
       </details>
       <details class="faq-item">
         <summary>Didn't find your answer?</summary>
@@ -510,7 +517,7 @@ footer{border-top:1px solid var(--border);padding:40px 0;margin-top:40px}
   <div class="container" style="text-align:center">
     <p style="font-size:1.05rem;color:var(--text-dim);margin-bottom:8px">Still have questions? We're humans too.</p>
     <a href="mailto:hello@mnemospark.ai" style="font-size:1.3rem;font-weight:700;color:var(--text);letter-spacing:-.01em">hello@mnemospark.ai</a>
-    <p style="font-size:.85rem;color:var(--text-dim);margin-top:8px">Early access, partnerships, or just say hi — we read everything.</p>
+    <p style="font-size:.85rem;color:var(--text-dim);margin-top:8px">Questions, feedback, or partnership ideas — we read everything.</p>
   </div>
 </section>
 
