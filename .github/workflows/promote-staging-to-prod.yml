@@ -1,0 +1,87 @@
+# Promote staging/index.html at a chosen commit to prod/index.html, then push to main.
+# deploy-prod.yml runs automatically on prod/** changes.
+name: Promote staging index to prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      staging_commit_sha:
+        description: "Full (40-char) commit SHA whose staging/index.html to ship to prod"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: promote-staging-to-prod
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require main branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "Run this workflow from the main branch only (select main in 'Use workflow from')."
+          exit 1
+
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate commit and extract staging/index.html
+        id: source
+        env:
+          RAW_SHA: ${{ inputs.staging_commit_sha }}
+        run: |
+          set -euo pipefail
+          SHA=$(echo "$RAW_SHA" | tr -d '[:space:]' | tr 'A-F' 'a-f')
+          if [[ ! "$SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "staging_commit_sha must be a full 40-character hex commit hash."
+            exit 1
+          fi
+          git cat-file -e "${SHA}^{commit}"
+          FULL_SHA=$(git rev-parse "${SHA}^{commit}")
+          echo "full_sha=$FULL_SHA" >> "$GITHUB_OUTPUT"
+          git show "${FULL_SHA}:staging/index.html" > prod/index.html
+          if [[ ! -s prod/index.html ]]; then
+            echo "staging/index.html at $FULL_SHA is empty or missing."
+            exit 1
+          fi
+
+      - name: Apply production robots meta
+        run: |
+          set -euo pipefail
+          python3 << 'PY'
+          from pathlib import Path
+
+          path = Path("prod/index.html")
+          text = path.read_text(encoding="utf-8")
+          old = '<meta name="robots" content="noindex, nofollow">'
+          new = '<meta name="robots" content="index, follow">'
+          if old in text:
+              text = text.replace(old, new, 1)
+          elif "noindex" in text and 'name="robots"' in text:
+              raise SystemExit(
+                  f"Expected robots tag {old!r} to rewrite; found other noindex robots meta."
+              )
+          path.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Commit and push to main
+        env:
+          FULL_SHA: ${{ steps.source.outputs.full_sha }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add prod/index.html
+          if git diff --staged --quiet; then
+            echo "No changes — prod/index.html already matches promoted + transformed content."
+            exit 0
+          fi
+          git commit -m "chore(prod): promote staging/index.html from ${FULL_SHA}"
+          git push origin HEAD:main
