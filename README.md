@@ -41,9 +41,9 @@ Validate via DNS in Porkbun (ACM will provide CNAME validation records).
 ### 2) Ensure GitHub OIDC provider exists in IAM
 
 If you already use GitHub OIDC in this account, reuse it.
-Expected ARN format:
+Expected ARN format (replace `<AWS_ACCOUNT_ID>` with your 12-digit account ID, or copy the full ARN from **IAM → Identity providers**):
 
-`arn:aws:iam::123456789012:oidc-provider/token.actions.githubusercontent.com`
+`arn:aws:iam::<AWS_ACCOUNT_ID>:oidc-provider/token.actions.githubusercontent.com`
 
 If missing, create once (outside this stack).
 
@@ -63,7 +63,7 @@ aws cloudformation deploy \
     GitHubOrg=pawlsclick \
     GitHubRepo=mnemospark-website \
     GitHubBranch=main \
-    GitHubOidcProviderArn=arn:aws:iam::123456789012:oidc-provider/token.actions.githubusercontent.com
+    GitHubOidcProviderArn=arn:aws:iam::<AWS_ACCOUNT_ID>:oidc-provider/token.actions.githubusercontent.com
 ```
 
 Get outputs:
@@ -93,9 +93,11 @@ Create records:
 
 Workflow: `.github/workflows/deploy-prod.yml`
 
-It assumes role:
+It assumes the deploy role via the `AWS_ROLE_ARN_PROD` repository (or `prod` environment) secret. After stack deploy, use output `GitHubDeployRoleArn`, or this pattern:
 
-`arn:aws:iam::123456789012:role/mnemospark-website-github-deploy-main`
+`arn:aws:iam::<AWS_ACCOUNT_ID>:role/mnemospark-website-github-deploy-main`
+
+(`mnemospark-website-github-deploy-main` is the default role name in the CloudFormation template unless you override it.)
 
 On push to `main` affecting `prod/**` (or manual dispatch), it:
 1. Reads stack outputs
