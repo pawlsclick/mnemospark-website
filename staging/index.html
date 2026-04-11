@@ -32,46 +32,26 @@
   "@graph": [
     {
       "@type": "Organization",
+      "@id": "https://mnemospark.ai/#organization",
       "name": "mnemospark",
-      "url": "https://mnemospark.ai",
-      "sameAs": ["https://x.com/mnemospark", "https://github.com/pawlsclick/mnemospark"]
-    },
-    {
-      "@type": "WebSite",
-      "name": "mnemospark",
-      "url": "https://mnemospark.ai/"
+      "url": "https://mnemospark.ai/",
+      "sameAs": [
+        "https://x.com/mnemospark",
+        "https://github.com/pawlsclick/mnemospark"
+      ]
     },
     {
       "@type": "SoftwareApplication",
+      "@id": "https://mnemospark.ai/#software",
       "name": "mnemospark",
-      "applicationCategory": "DeveloperApplication",
+      "url": "https://mnemospark.ai/",
+      "applicationCategory": "ProductivityApplication",
       "operatingSystem": "Cross-platform (OpenClaw host)",
-      "description": "OpenClaw plugin for encrypted cloud backup and agent-driven storage with x402 USDC payments on Base L2.",
-      "url": "https://github.com/pawlsclick/mnemospark",
-      "publisher": {"@type": "Organization", "name": "mnemospark", "url": "https://mnemospark.ai"}
-    },
-    {
-      "@type": "Product",
-      "name": "mnemospark",
-      "description": "OpenClaw plugin and backend for encrypted cloud backup, agentic storage workflows, and x402 payments with Circle USDC on Coinbase Base (Ethereum L2).",
-      "brand": {"@type": "Organization", "name": "mnemospark"}
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {"@type": "Question", "name": "What is mnemospark and what does it do?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark is an OpenClaw plugin and backend service that lets agentic systems run cloud operations and file storage workflows. You can quote storage, upload, download, list, and delete files. Your agent pays for storage with its wallet using USDC on Base."}},
-        {"@type": "Question", "name": "Why does OpenClaw require \"--dangerously-force-unsafe-install\" for mnemospark?", "acceptedAnswer": {"@type": "Answer", "text": "OpenClaw warns about dangerous code patterns when you install mnemospark. mnemospark is an OpenClaw plugin that talks to your configured mnemospark backend, runs a local HTTP proxy for storage workflows, and can invoke the openclaw CLI and system tools for creating archives with tar. mnemospark is open source; review the repository or have an LLM walk the code if you want another opinion. Starter ChatGPT conversation: https://chatgpt.com/share/69ce6119-52cc-8394-b9f9-c06528d85ea7"}},
-        {"@type": "Question", "name": "How do I back up OpenClaw or my files?", "acceptedAnswer": {"@type": "Answer", "text": "Install the mnemospark OpenClaw plugin and restart the gateway. In OpenClaw chat, run /mnemospark wallet to get your Base address, fund it with USDC, then run /mnemospark cloud—your agent guides you through choosing files and your first encrypted cloud backup. No separate backup app required."}},
-        {"@type": "Question", "name": "What is a wallet on Base?", "acceptedAnswer": {"@type": "Answer", "text": "A Base wallet is a blockchain account (address + private key) on the Base network. It can hold USDC and sign transactions and authorizations used for payments."}},
-        {"@type": "Question", "name": "How does mnemospark provide a wallet?", "acceptedAnswer": {"@type": "Answer", "text": "During setup, mnemospark creates or reuses a local wallet key and uses it to sign payment and auth requests. The wallet key is stored locally in your OpenClaw home directory under ~/.openclaw/mnemospark/wallet."}},
-        {"@type": "Question", "name": "How do I fund my wallet on Base?", "acceptedAnswer": {"@type": "Answer", "text": "Send USDC (Base network) to your wallet address from an exchange or another wallet. Make sure you select Base as the network when withdrawing or transferring. Once funded, mnemospark can use those funds for payments."}},
-        {"@type": "Question", "name": "How do I pay for storage?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark requests a storage quote first, then submits a signed USDC payment authorization (x402 flow) when you execute upload and storage actions. Payment and storage requests are tied together by the quote."}},
-        {"@type": "Question", "name": "When do I pay for storage?", "acceptedAnswer": {"@type": "Answer", "text": "Your agent submits payment on the 1st of each month via a cron job. Payment is required each month to keep storage active."}},
-        {"@type": "Question", "name": "Where is my data stored?", "acceptedAnswer": {"@type": "Answer", "text": "Files are securely stored with AWS. You may select which geographic region your data is stored in when creating a quote—pick the region closest to you."}},
-        {"@type": "Question", "name": "How is my data protected?", "acceptedAnswer": {"@type": "Answer", "text": "mnemospark upload flows use encrypted payloads (AES-256-GCM) and request signing. Access to storage endpoints requires wallet-native authentication and signed requests. Your agent's wallet is its ID—never share your wallet private key."}},
-        {"@type": "Question", "name": "How can I access my stored data?", "acceptedAnswer": {"@type": "Answer", "text": "Use mnemospark commands to list, download, and delete files. Access is gated by wallet-native authorization—only requests signed by your wallet are accepted."}},
-        {"@type": "Question", "name": "Didn't find your answer?", "acceptedAnswer": {"@type": "Answer", "text": "Email hello@mnemospark.ai—early access, partnerships, and feedback welcome."}}
-      ]
+      "description": "OpenClaw plugin for encrypted cloud backup and agent-driven storage with x402 payments using Circle USDC on Coinbase Base (Ethereum L2).",
+      "publisher": {
+        "@id": "https://mnemospark.ai/#organization"
+      },
+      "downloadUrl": "https://github.com/pawlsclick/mnemospark"
     }
   ]
 }
