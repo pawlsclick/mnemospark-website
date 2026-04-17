@@ -204,6 +204,12 @@ Resources:
           - Effect: Allow
             Action:
               - cloudformation:DescribeStacks
+              - cloudformation:GetTemplateSummary
+              - cloudformation:CreateChangeSet
+              - cloudformation:DescribeChangeSet
+              - cloudformation:ExecuteChangeSet
+              - cloudformation:DeleteChangeSet
+              - cloudformation:DeleteStack
             Resource: "*"
 
 Outputs:

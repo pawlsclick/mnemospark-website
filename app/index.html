@@ -452,12 +452,12 @@
           return it && (it.url || it.presigned_url || it.presignedUrl || it.download_url || it.downloadUrl);
         }).filter(Boolean);
 
-        if (!items.length) {
+        if (!urls.length) {
           setStatus('bad', 'No download URLs returned');
           return;
         }
 
-        setStatus('ok', 'Got ' + items.length + ' URL' + (items.length === 1 ? '' : 's') + ' — opening…');
+        setStatus('ok', 'Got ' + urls.length + ' URL' + (urls.length === 1 ? '' : 's') + ' — opening…');
 
         // Best-effort attempt to trigger downloads in the same user gesture. Browsers may still block multiples.
         urls.forEach(function (url) {
