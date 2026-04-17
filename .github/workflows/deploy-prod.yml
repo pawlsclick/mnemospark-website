@@ -6,7 +6,7 @@ on:
     paths:
       - "prod/**"
       - ".github/workflows/deploy-prod.yml"
-      - "infra/cloudformation/**"
+      - "infra/cloudformation/website-prod.yaml"
   workflow_dispatch:
 
 permissions:

@@ -271,6 +271,15 @@
         downloadBtn.textContent = selected.size === 0 ? 'Download selected' : ('Download selected (' + selected.size + ')');
       }
 
+      function getSelectableKeyCount() {
+        var keys = new Set();
+        rows.forEach(function (o) {
+          var key = normalizeKey(o);
+          if (key) keys.add(key);
+        });
+        return keys.size;
+      }
+
       function render() {
         downloadLinks.style.display = 'none';
         downloadLinks.innerHTML = '';
@@ -300,7 +309,8 @@
 
         elTbody.innerHTML = html;
 
-        masterCheck.checked = selected.size > 0 && selected.size === rows.length;
+        var selectableKeyCount = getSelectableKeyCount();
+        masterCheck.checked = selected.size > 0 && selected.size === selectableKeyCount;
         updateDownloadButton();
       }
 
@@ -510,7 +520,8 @@
         if (!key) return;
         if (t.checked) selected.add(key);
         else selected.delete(key);
-        masterCheck.checked = selected.size > 0 && selected.size === rows.length;
+        var selectableKeyCount = getSelectableKeyCount();
+        masterCheck.checked = selected.size > 0 && selected.size === selectableKeyCount;
         updateDownloadButton();
       });
 
