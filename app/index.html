@@ -323,7 +323,7 @@
       async function exchangeIfCodePresent() {
         var u = new URL(window.location.href);
         var code = u.searchParams.get('code');
-        if (!code) return;
+        if (!code) return true;
 
         setStatus('', 'Exchanging code…');
         try {
@@ -339,8 +339,10 @@
           u.searchParams.delete('code');
           window.history.replaceState({}, document.title, u.toString());
           setStatus('ok', 'Session established');
+          return true;
         } catch (e) {
           setStatus('bad', e && e.message ? e.message : 'Exchange failed');
+          return false;
         }
       }
 
@@ -513,7 +515,8 @@
       });
 
       (async function boot() {
-        await exchangeIfCodePresent();
+        var exchangeOk = await exchangeIfCodePresent();
+        if (!exchangeOk) return;
         await loadList();
       })();
     })();
