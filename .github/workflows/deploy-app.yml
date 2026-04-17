@@ -1,12 +1,12 @@
-name: Deploy website to production (CloudFront)
+name: Deploy app shell to production (CloudFront)
 
 on:
   push:
     branches: [main]
     paths:
-      - "prod/**"
-      - ".github/workflows/deploy-prod.yml"
-      - "infra/cloudformation/website-prod.yaml"
+      - "app/**"
+      - "infra/cloudformation/website-app.yaml"
+      - ".github/workflows/deploy-app.yml"
   workflow_dispatch:
 
 permissions:
@@ -14,21 +14,20 @@ permissions:
   contents: read
 
 concurrency:
-  group: website-prod-deploy
+  group: website-app-deploy
   cancel-in-progress: false
 
 env:
   AWS_REGION: us-east-1
-  CFN_STACK_NAME: mnemospark-website-prod
-  CFN_TEMPLATE_FILE: infra/cloudformation/website-prod.yaml
-  DOMAIN_NAME: mnemospark.ai
-  WWW_DOMAIN_NAME: www.mnemospark.ai
+  CFN_STACK_NAME: mnemospark-website-app
+  CFN_TEMPLATE_FILE: infra/cloudformation/website-app.yaml
+  APP_DOMAIN_NAME: app.mnemospark.ai
   ACM_CERTIFICATE_ARN: ${{ secrets.ACM_CERTIFICATE_ARN }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: app
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,7 +35,7 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN_PROD }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN_APP }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Recover from ROLLBACK_COMPLETE stack state
@@ -78,10 +77,8 @@ jobs:
             --no-fail-on-empty-changeset \
             --parameter-overrides \
               GitHubOidcProviderArn="${GITHUB_OIDC_PROVIDER_ARN}" \
-              CreateGitHubDeployRole="false" \
-             DomainName="${{ env.DOMAIN_NAME }}" \
-             WwwDomainName="${{ env.WWW_DOMAIN_NAME }}" \
-             AcmCertificateArn="${{ secrets.ACM_CERTIFICATE_ARN }}"
+              AppDomainName="${{ env.APP_DOMAIN_NAME }}" \
+              AcmCertificateArn="${{ env.ACM_CERTIFICATE_ARN }}"
 
       - name: Resolve stack outputs
         id: outputs
@@ -120,7 +117,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          aws s3 sync ./prod "s3://${{ steps.outputs.outputs.bucket }}" \
+          aws s3 sync ./app "s3://${{ steps.outputs.outputs.bucket }}" \
             --delete \
             --exclude "*.html" \
             --cache-control "public, max-age=86400"
@@ -129,7 +126,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          aws s3 sync ./prod "s3://${{ steps.outputs.outputs.bucket }}" \
+          aws s3 sync ./app "s3://${{ steps.outputs.outputs.bucket }}" \
             --delete \
             --exclude "*" \
             --include "*.html" \
