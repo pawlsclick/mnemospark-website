@@ -205,12 +205,16 @@ Resources:
             Action:
               - cloudformation:DescribeStacks
               - cloudformation:GetTemplateSummary
+            Resource: "*"
+          - Effect: Allow
+            Action:
               - cloudformation:CreateChangeSet
               - cloudformation:DescribeChangeSet
               - cloudformation:ExecuteChangeSet
               - cloudformation:DeleteChangeSet
               - cloudformation:DeleteStack
-            Resource: "*"
+            Resource:
+              - !Sub "arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*"
 
 Outputs:
   BucketName:
