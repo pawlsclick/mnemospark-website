@@ -18,22 +18,11 @@ Static site for mnemospark.
 - GitHub Actions deploy on `main` (OIDC, no static AWS keys)
 - No WAF for v1
 
-## App architecture (v1) — `app.mnemospark.ai`
-
-The app shell is a **separate** static site (dedicated S3 bucket + CloudFront distribution) and does **not** share the marketing bucket or distribution.
-
-- Content lives under `app/`
-- Infra stack: `infra/cloudformation/website-app.yaml`
-- Deploy workflow: `.github/workflows/deploy-app.yml` (OIDC, no static AWS keys)
-
 ## Repo layout
 
 - `prod/` → production site content (deployed to S3 root)
-- `app/` → app shell content for `app.mnemospark.ai` (deployed to a separate S3 bucket)
 - `infra/cloudformation/website-prod.yaml` → infrastructure stack
-- `infra/cloudformation/website-app.yaml` → app infrastructure stack
 - `.github/workflows/deploy-prod.yml` → CI deploy pipeline
-- `.github/workflows/deploy-app.yml` → CI deploy pipeline (app)
 
 ## Current production content source
 
@@ -113,42 +102,7 @@ On push to `main` affecting `prod/**` (or manual dispatch), it:
 2. Syncs `prod/` to S3
 3. Invalidates CloudFront (`/*`)
 
-## App (`app.mnemospark.ai`) one-time setup
-
-### 1) Deploy CloudFormation stack
-
-```bash
-aws cloudformation deploy \
-  --region us-east-1 \
-  --stack-name mnemospark-website-app \
-  --template-file infra/cloudformation/website-app.yaml \
-  --capabilities CAPABILITY_NAMED_IAM \
-  --parameter-overrides \
-    ProjectName=mnemospark-website \
-    AppDomainName=app.mnemospark.ai \
-    AcmCertificateArn=<YOUR_ACM_CERT_ARN> \
-    GitHubOrg=pawlsclick \
-    GitHubRepo=mnemospark-website \
-    GitHubBranch=main \
-    GitHubOidcProviderArn=<YOUR_GITHUB_OIDC_PROVIDER_ARN>
-```
-
-Record these outputs:
-- `AppDnsTarget` (CloudFront domain)
-- `GitHubDeployRoleArn`
-
-### 2) Configure DNS in Porkbun
-
-Create records:
-- `app` → **CNAME** to `AppDnsTarget`
-
-### 3) GitHub Actions deploy
-
-Workflow: `.github/workflows/deploy-app.yml`
-
-It assumes the deploy role via the `AWS_ROLE_ARN_APP` repository (or `app` environment) secret. Use output `GitHubDeployRoleArn`, or this pattern:
-
-`<YOUR_GITHUB_DEPLOY_ROLE_ARN>`
+The **`app.mnemospark.ai`** static shell and its deploy stack live in the separate repository **`mnemospark-app`**.
 
 ## Deploy flow (day-to-day)
 
